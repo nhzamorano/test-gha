@@ -1,18 +1,32 @@
-on: push
+on: 
+  push:
+    branches:
+      - master
+
 name: deploy
+
 jobs:
   deploy:
-    name: deploy to cluster
+    name: Deploy to Cluster
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/chekout@master
-      - name: build and push to docker
-        uses: docker/build-push-action@v1
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ github.repository }}
-          tag_with_ref: true 
-          tag_with_sha: true
-          tags: ${{ github.sha }}
+          context: .
+          push: true
+          tags: ${{ github.repository }}:${{ github.sha }}
+          # Optional: Add more tags
+          tags: |
+            ${{ github.repository }}:${{ github.sha }}
+            ${{ github.repository }}:latest
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
