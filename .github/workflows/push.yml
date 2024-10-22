@@ -1,7 +1,7 @@
-on: 
+on:
   push:
     branches:
-      - master
+      - main
 
 name: deploy
 
@@ -21,12 +21,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ github.repository }}:${{ github.sha }}
-          # Optional: Add more tags
           tags: |
             ${{ github.repository }}:${{ github.sha }}
             ${{ github.repository }}:latest
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 
