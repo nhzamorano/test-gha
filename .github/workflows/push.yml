@@ -2,9 +2,7 @@ on:
   push:
     branches:
       - master
-
 name: deploy
-
 jobs:
   deploy:
     name: Deploy to Cluster
@@ -14,7 +12,6 @@ jobs:
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
-
       # Build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
